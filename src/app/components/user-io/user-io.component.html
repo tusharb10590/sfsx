@@ -1,0 +1,82 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-5">
+            <div class="container">
+                <div class="row my-3">
+                    <div class="col">
+                        SFSX
+                    </div>
+                    <div class="col">
+                        <select class="form-control">
+                            <option>GOOGL</option>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col">
+                        Trader
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col">
+                        Price
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col">
+                        Shares
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col">
+                        Buy - Sell
+                    </div>
+                    
+                </div>
+
+                <div class="row my-3">
+                    <div class="col">
+                        <button class="btn btn-primary">Add user</button>
+                    </div>
+                    
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="col">
+            <div style="display: block;">
+                <canvas baseChart 
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [plugins]="barChartPlugins"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType"
+                  (chartClick)="chartData($event)"
+                  >
+                </canvas>
+              </div>
+              
+           
+        </div>
+        
+        
+    </div>
+</div>
