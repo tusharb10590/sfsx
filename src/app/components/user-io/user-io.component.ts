@@ -91,6 +91,7 @@ export class UserIOComponent implements OnInit {
 
   addOrder(){
     this.order.orderSide = this.bsStatus ? 's' : 'b'
+    this.order.tickerId = parseInt(this.selectedTicker)
     console.log(this.order)
     this.serviceModel.postNewOrder(this.order).then(res=>{
       console.log(res);
