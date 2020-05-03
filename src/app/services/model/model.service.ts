@@ -17,7 +17,7 @@ export class ModelService {
   readonly GET_ORDER = '/order';
   readonly POST_ORDER = '/order';
   readonly GET_LOGS = '/logs'
-  readonly GET_ORDER_ID = '/order/:id'
+  readonly GET_ORDER_ID = '/order/'
 
 getAllTickers(){
   
@@ -40,6 +40,10 @@ postNewOrder(order:Order){
 
 getLogs(){
   return this.httpClient.get(`${this.HOST_URL}${this.GET_LOGS}`).toPromise()
+}
+
+getBookDataId(id){
+  return this.httpClient.get(`${this.HOST_URL}${this.GET_ORDER_ID}${id}`).toPromise()
 }
 
 }

@@ -16,18 +16,20 @@ export class UserIOComponent implements OnInit {
   tickers: any = []
   bsStatus = false
   order: Order = new Order(1,'',null,null,'b')
+  tickerBookData = null
 
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: Label[] = ['100','110','150','160'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' }
-    // { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+    { data: [85,70], label: 'Buy' },
+    { data: [0,0,100,110], label: 'Sell' }
+    
   ];
 
   constructor(
@@ -48,7 +50,32 @@ export class UserIOComponent implements OnInit {
 
 
   chartData(event){
-    console.log(event)
+    console.log(event.active)
+    console.log(event.active[0]._index)
+    let index = event.active[0]._index
+    let price = this.barChartLabels[index]
+    let buyQty =  this.barChartData[0]['data'][index]
+    let sellQty = this.barChartData[1]['data'][index]
+    let side = buyQty == 0 ? 's' : 'b'
+    let qty 
+    console.log("P","B V", "S V");
+    console.log(price,buyQty,sellQty , side);
+    let bookData = {
+      price: price,
+      side:side
+    }
+    if(side == 's'){
+      bookData['qty'] = sellQty
+      bookData['data'] = this.tickerBookData['sell_book']
+    }
+    else{
+      bookData['qty'] = buyQty
+      bookData['data'] = this.tickerBookData['buy_book']
+
+    }
+    this.serviceAppStae.setBookDataByPrice(bookData)
+    this.serviceAppStae.changeMessage('showBookData')
+   
   }
 
   tickerValueChange($event){
@@ -56,6 +83,9 @@ export class UserIOComponent implements OnInit {
     console.log(value)
     if(value !== '-1'){
       this.selectedTicker = value
+      this.getTickerBookData(this.selectedTicker)
+      this.serviceAppStae.changeMessage('showBookDataInactive')
+      
     }
   }
 
@@ -68,6 +98,7 @@ export class UserIOComponent implements OnInit {
       this.serviceAppStae.setLog(logs)
       this.serviceAppStae.changeMessage('addOrder')
       this.bsStatus = false
+      this.getTickerBookData(this.order.tickerId);
   this.order = new Order(1,'',null,null,'b')
 
     })
@@ -76,6 +107,54 @@ export class UserIOComponent implements OnInit {
     })
 
     
+  }
+
+  getTickerBookData(id){
+    this.serviceModel.getBookDataId(id).then(res=>{
+      console.log(res);
+      this.tickerBookData = res;
+      let result = this.aggreagteBookData()
+      console.log(result)
+      this.barChartLabels = result['labels']
+      this.barChartData[0]['data'] = result['bData'];
+      this.barChartData[1]['data'] = result['sData'];
+      console.log(this.barChartData)
+
+    })
+  }
+
+  aggreagteBookData(){
+    let sellPrices = {} ;
+    let buyPrices = {} ;
+    if(this.tickerBookData){
+      this.tickerBookData['buy_book'].forEach(item=>{
+        // console.log(item)
+        buyPrices[item['price']] = item['quantity'] + (buyPrices[item['price']] || 0)
+      })
+  
+      this.tickerBookData['sell_book'].forEach(item=>{
+        sellPrices[item['price']] = item['quantity'] + (sellPrices[item['price']] || 0)
+      })
+
+    }
+    
+    let buyData = []
+    let sellData = []
+    let labels = []
+    for(let k in buyPrices){
+      labels.push(k)
+      buyData.push(buyPrices[k])
+      sellData.push(0)
+    }
+
+    for(let k in sellPrices){
+      labels.push(k)
+      sellData.push(sellPrices[k])
+      buyData.push(0)
+    }
+    
+    console.log(buyPrices, sellPrices)
+    return {labels:labels,bData:buyData,sData:sellData}
   }
 }
 

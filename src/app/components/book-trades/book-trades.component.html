@@ -1,0 +1,22 @@
+<div *ngIf="isActive">
+<h2>  Resting order: {{sideLabel}} @ {{price}} </h2>
+
+<table class="table table-striped" >
+    <thead>
+        <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Trader</th>
+            <th scope="col">Price</th>
+            <th scope="col">Shares</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.fts}}</td>
+            <td>{{order.traderName}}</td>
+            <td>{{order.price}}</td>
+            <td>{{order.quantity}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>

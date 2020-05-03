@@ -8,6 +8,7 @@ export class AppStateService {
 
   constructor() { }
   private transction_log = []
+  private bookDataByPrice = {};
 
 
   private messageSource = new BehaviorSubject('default');
@@ -25,6 +26,14 @@ export class AppStateService {
 
   setLog(logs:[]){
     this.transction_log = logs;
+  }
+
+  setBookDataByPrice(data:any){
+      this.bookDataByPrice = data
+  }
+
+  getBookDataByPrice(){
+      return this.bookDataByPrice
   }
   
 }
