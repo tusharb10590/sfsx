@@ -1,1 +1,24 @@
-<p>log-table works!</p>
+<h3>
+    Trading Log
+</h3>
+
+<table class="table table-striped" *ngIf="logs">
+    <thead>
+        <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Ticker</th>
+            <th scope="col">Price</th>
+            <th scope="col">Shares</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let log of logs">
+            <td>{{log.fts}}</td>
+            <td>{{log.traderName}}</td>
+            <td>{{log.executionPrice}}</td>
+            <td>{{log.quantity}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h5 *ngIf="!logs"> No Logs. </h5>

@@ -8,6 +8,9 @@ import { LogTableComponent } from './components/log-table/log-table.component';
 import { BookTradesComponent } from './components/book-trades/book-trades.component';
 import { HomeComponent } from './components/home/home.component';
 import { ChartsModule } from 'ng2-charts';
+import { FormsModule } from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +22,9 @@ import { ChartsModule } from 'ng2-charts';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

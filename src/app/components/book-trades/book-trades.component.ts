@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import { AppStateService } from 'src/app/services/appState/app-state.service';
 
 @Component({
   selector: 'sfsx-book-trades',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./book-trades.component.css']
 })
 export class BookTradesComponent implements OnInit {
+
 
   constructor() { }
 
